@@ -99,9 +99,9 @@ $(function() {
 
     // Loop through allFeeds and load each one calling done when finished
     if (feedIndex < feedsLength) {
-      beforeEach(function() {
+      beforeEach(function(done) {
         feedIndex ++;
-        loadFeed(feedIndex, function(done) {
+        loadFeed(feedIndex, function() {
           done();
         });
       });
@@ -121,9 +121,9 @@ $(function() {
 
     // Loop through allFeeds and load each one calling done when finished
     if (feedIndex < feedsLength) {
-      beforeEach(function() {
+      beforeEach(function(done) {
         feedIndex ++;
-        loadFeed(feedIndex, function(done) {
+        loadFeed(feedIndex, function() {
           done();
         });
       });
