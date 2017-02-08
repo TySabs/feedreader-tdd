@@ -59,7 +59,7 @@ $(function() {
      * the CSS to determine how we're performing the
      * hiding/showing of the menu element.
      */
-    it('Menu element is hidden by default', function() {
+    it('Menu element is hidden by default.', function() {
       var body = $('body');
       expect(body.hasClass('menu-hidden')).toBe(true);
     });
@@ -69,7 +69,7 @@ $(function() {
     * should have two expectations: does the menu display when
     * clicked and does it hide when clicked again.
     */
-    it('Menu changes visibility when the menu icon is clicked', function() {
+    it('Menu changes visibility when the menu icon is clicked.', function() {
       var body = $('body');
       var menuIconLink = $('.menu-icon-link');
 
@@ -94,59 +94,49 @@ $(function() {
      * Remember, loadFeed() is asynchronous so this test will require
      * the use of Jasmine's beforeEach and asynchronous done() function.
      */
-    var feedIndex = 0;
-    var feedsLength = allFeeds.length;
+    var initialEntriesIndex = 0;
 
     // Loop through allFeeds and load each one calling done when finished
-    if (feedIndex < feedsLength) {
-      beforeEach(function(done) {
-        feedIndex ++;
-        loadFeed(feedIndex, function() {
-          done();
-        });
+    beforeEach(function(done) {
+      loadFeed(initialEntriesIndex, function() {
+        initialEntriesIndex ++;
+        done();
       });
-    }
+    });
 
     // Ensure there is an entry element defined on the page
-    it('There is at least a single .entry within the .feed container after loadFeed completes its work', function() {
-      var entry = $('.entry');
+    it('There is at least a single .entry within the .feed container after loadFeed completes its work.', function() {
+      var entry = $('.feed .entry');
       expect(entry).toBeDefined();
     });
   });
 
   /* Write a new test suite named "New Feed Selection" */
   describe('New Feed Selection', function() {
-    var feedIndex = 0;
-    var feedsLength = allFeeds.length;
+    var newFeedIndex = 0;
+    var oldFeed, newFeed;
 
-    // Loop through allFeeds and load each one calling done when finished
-    if (feedIndex < feedsLength) {
-      beforeEach(function(done) {
-        feedIndex ++;
-        loadFeed(feedIndex, function() {
+    // loadFeed() a first time setting oldFeed to .feed's contents then increment newFeedIndex and
+    // loadFeed() a second time, setting newFeed to the .feed's contents,
+    // calling done() when finished
+    beforeEach(function(done) {
+      loadFeed(newFeedIndex, function() {
+        oldFeed = $('.feed').contents();
+        newFeedIndex ++;
+        loadFeed(newFeedIndex,function() {
+          newFeed = $('.feed').contents();
           done();
         });
       });
-    }
+    });
 
     /* Ensure when a new feed is loaded
      * by the loadFeed function that the content actually changes.
      * Remember, loadFeed() is asynchronous.
      */
     it('When a new feed is loaded by loadFeed(), that content changes.', function() {
-      // First set an index, oldFeed, and newFeed variables to loop through allFeeds
-      var nestedFeedIndex = 0;
-      var oldFeed, newFeed;
-
-      // Loop through setting the oldFeed before iteration, and setting newFeed after
-      // iteration.
-      while (nestedFeedIndex < feedsLength) {
-        oldFeed = allFeeds[nestedFeedIndex];
-        nestedFeedIndex ++;
-        newFeed = allFeeds[nestedFeedIndex];
-        // Check to make sure newFeed is not equal to oldFeed
-        expect(newFeed).not.toBe(oldFeed);
-      }
+      // Check to make sure newFeed is not equal to oldFeed
+      expect(newFeed).not.toBe(oldFeed);
     });
   });
 }());
