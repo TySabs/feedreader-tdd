@@ -121,10 +121,10 @@ $(function() {
     // calling done() when finished
     beforeEach(function(done) {
       loadFeed(newFeedIndex, function() {
-        oldFeed = $('.feed').contents();
+        oldFeed = $('.feed').html();
         newFeedIndex ++;
         loadFeed(newFeedIndex,function() {
-          newFeed = $('.feed').contents();
+          newFeed = $('.feed').html();
           done();
         });
       });
